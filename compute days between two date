@@ -1,0 +1,97 @@
+// Example program
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <time.h>
+#define SUB(x,y) x-y
+#define ACCESS_BEFORE(element,offset,value) *(SUB(&element,offset))=value
+using namespace std;
+
+typedef struct DATE{
+    int year;
+    int month;
+    int days;
+    }*date;
+    
+bool leap_year(int data_year)
+{
+    if(data_year<0) throw("error");
+    bool status=false;
+    int i=0;
+    long int factors[5]={4,100,400,3200,172800};
+    while(i<4)
+    {
+        if(data_year%factors[i]!=0&&data_year%factors[i+1]==0)
+        {
+            status=true;break;
+        }
+        i++;
+    }
+    return status;
+}
+int month_days(int month,int year)
+{
+    if((month<8&&month%2==1)||(month>7&&month%2==0))
+    {return 31;}
+    if(month==2)
+    {
+       if(leap_year(year))
+       return 29;
+       else
+       return 28;
+    }
+    return 30;
+}
+//void input_devied(string s,DATE *date)
+//{
+//    int *p;
+ //   const char *dev = " ,*./";
+    //date->year = strtok(s,dev)
+    
+//}
+int main()
+{
+    
+    DATE *d1,*d2; 
+    string str1,str2;
+    int count=0;
+    //cout<<"输入日期1：格式如1990.10.10";
+    //getline (cin, str1);
+   // cout<<"输入日期2：格式如1990.10.10";
+   // getline (cin, str2);
+   d1=(DATE *)malloc(sizeof(DATE));
+   d2=(DATE *)malloc(sizeof(DATE));
+    d1->year = 1622;
+    d1->month =8;
+    d1->days =21;
+    d2->year = 1926;
+    d2->month =10;
+    d2->days =24;
+
+    
+        if(d1->year<d2->year)
+        {
+            int flag=1;
+            if(d1->month<=d2->month) 
+            {flag=0;}
+            
+            while(d1->year<d2->year-flag)
+            {
+                if(leap_year(d1->year))
+                {count+=366;}
+                else
+                {count+=365;}
+                d1->year++;
+            }
+            
+            
+        }
+         for(int i=d1->month;i!=d2->month;i++)
+        {
+            count=count+month_days(i,d1->year);
+            if(i>12)i=1;
+            cout << i<<endl;
+        }
+        count=count+d2->days-d1->days;
+    cout << count<<endl;
+}
