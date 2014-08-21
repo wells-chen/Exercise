@@ -1,0 +1,44 @@
+ #include <iostream>
+ #include <string>
+ #include <vector>
+ 
+//字符串分割函数
+ std::vector<std::string> split(std::string str,std::string pattern)
+ {
+    std::string::size_type position;
+    std::vector<std::string> result;
+    str+=pattern;
+    unsigned int size=str.size();
+    for(unsigned int i=0;i<size;i++)
+    {
+        position=str.find(pattern,i);
+        if(position<size)
+        {
+            std::string s=str.substr(i,position-i);
+            result.push_back(s);
+            i=position+pattern.size()-1;
+        }
+    }
+     return result;
+ }
+ 
+ int main()
+ {
+     std::string str;
+     std::cout<<"Please input string:"<<std::endl;
+     getline(std::cin,str);
+     std::string pattern;
+     std::cout<<"Please input pattern:"<<std::endl;
+     getline(std::cin,pattern);//divide symbol
+     std::vector<std::string> result = split(str,pattern);
+     std::cout<<"The result:"<<std::endl;
+     for(unsigned int i=0; i<result.size(); i++)
+     {
+         std::cout<<result[i]<<std::endl;
+     }
+     std::cout<<result.size();
+ 
+     std::cin.get();
+     std::cin.get();
+     return 0;
+ }
