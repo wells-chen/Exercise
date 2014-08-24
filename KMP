@@ -1,0 +1,65 @@
+ #include <iostream>
+ #include <string>
+ #include <vector>
+ using namespace std;
+//KMP函数
+ void get_next(const string ptn, int *next)
+ {
+     int i=0,j=-1;
+     next[0]=-1;
+     while(i<ptn.size()-1)
+     {
+         if(j==-1||ptn[i]==ptn[j])
+         {
+             i++;
+             j++;
+             if(ptn[i]!=ptn[j])
+             next[i]=j;
+             else
+             next[i]=next[j];
+         }
+          else
+          {
+              j=next[j];
+          }
+    }
+ }
+ void KMP_index(const string s,const string ptn, int *pos)
+ {
+    int next[255];
+    get_next(ptn,next);
+    int i=0,j=0;
+    while(i<s.size()&&j<ptn.size())
+    {
+        if(s[i]==ptn[j])
+        {
+            i++;
+            j++;            
+        }
+        else
+        {
+            j=next[j];
+        }   
+    }
+    if(j==ptn.size())
+    *pos=i;
+    else
+    *pos=0;
+}
+ 
+ int main()
+ {
+     string str;
+    cout<<"Please input string:"<<endl;
+    getline(cin,str);
+    string pattern;
+    cout<<"Please input pattern:"<<endl;
+    getline(cin,pattern);//divide symbol
+    int *pos;
+    KMP_index(str,pattern,pos);
+    cout<<*pos<<endl;
+    
+     std::cin.get();
+     std::cin.get();
+     return 0;
+ }
